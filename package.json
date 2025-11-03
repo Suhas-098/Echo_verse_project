@@ -1,0 +1,21 @@
+{
+  "name": "echoverse_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+     "build": "npm install --prefix Back-End && npm install --prefix Front-End && npm run build --prefix Front-End",
+  "start": "npm run start --prefix Back-End"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Suhas-098/Echo_verse_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Suhas-098/Echo_verse_project/issues"
+  },
+  "homepage": "https://github.com/Suhas-098/Echo_verse_project#readme"
+}

@@ -1,5 +1,5 @@
 {
-  "name": "front-end",
+  "name": "vite-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "echoverse_project": "file:..",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
