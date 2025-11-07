@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 // ------- SiGNUP ROUTE --------
-router.get("/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
     const { FullName, Email, Password } = req.body;
 
@@ -67,12 +67,12 @@ router.get("/signup", async (req, res) => {
 
 
 // ------- LOGIN ROUTE --------
-router.get("/login", (req, res) => {
+router.post("/login", (req, res) => {
   res.send("login endpoint");
 });
 
 // ------- LOGOUT ROUTE --------
-router.get("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
   res.send("logout endpoint");
 });
 
