@@ -1,7 +1,9 @@
-import express from "express";
+import express, { json } from "express";
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
+import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 const router = express.Router();
 
@@ -95,7 +97,23 @@ res.status(200).json({ message: "Logged out successfully" });
   
 });
 
+//-------UPDATE PROFILE---------
+router.post("/update-profile", async(req,res) =>{
 
+try {
+  const {Profilepic}=req.body;
+  if(!Profilepic) return res.status(400).json({message:"Profile pic is required"});
+
+  const uploadResponse =await cloudinary.uploader.upload(Profilepic);
+
+  const updateUser =await User.findByIdAndUpdate({Profilepic:uploadResponse.secure_url},{new:true});
+
+  res.status(200).json(updateUser);
+} catch (error) {
+  console.log("Error in update profile",error);
+  res.status(500).json({message:"Internal server error in update profile"});
+}
+});
 
 
 
