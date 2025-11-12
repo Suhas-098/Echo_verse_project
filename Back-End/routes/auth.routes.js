@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import { ENV } from "../lib/env.js";
 import cloudinary from "../lib/cloudinary.js";
+import { protectRoute } from "../middlerware/auth.middleware.js";
 
 const router = express.Router();
 
@@ -98,7 +99,7 @@ res.status(200).json({ message: "Logged out successfully" });
 });
 
 //-------UPDATE PROFILE---------
-router.post("/update-profile", async(req,res) =>{
+router.post("/update-profile",protectRoute, async(req,res) =>{
 
 try {
   const {Profilepic}=req.body;
@@ -114,16 +115,6 @@ try {
   res.status(500).json({message:"Internal server error in update profile"});
 }
 });
-
-
-
-
-
-
-
-
-
-
 
 
 
