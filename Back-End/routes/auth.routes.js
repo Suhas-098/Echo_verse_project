@@ -117,7 +117,7 @@ try {
 });
 
 
-
+router.get("/check", protectRoute, (req, res) => res.status(200).json(req.user));
 
 
 
