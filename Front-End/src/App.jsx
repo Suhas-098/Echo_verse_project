@@ -1,15 +1,24 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import ChatPage from "./pages/ChatPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import { useAuthStore } from "./store/useAuthstore"; 
+import { useAuthStore } from "./store/useAuthStore";
+import { useEffect } from "react";
+import PageLoader from "./components/PageLoader";
+import {Toaster} from 'react-hot-toast';
 
 function App() {
 
-  const {authUser, login, isLoggedIn }= useAuthStore();
-  console.log("auth user:",authUser);
-  console.log("isLoggedIn:",isLoggedIn);
+const { checkAuth, isCheckingAuth, authUser } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isCheckingAuth) return <PageLoader />;
+
   return (
+    //Decorative animated background container
     <div className="min-h-screen relative overflow-hidden">
 
       {/* ===========================
@@ -34,16 +43,6 @@ function App() {
         blur-[50px] animate-shimmer"
       />
 
-      {/* ===========================
-          ROUTES
-      ============================ */}
-      <div className="relative z-10">
-        <Routes>
-          <Route path="/" element={<ChatPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-        </Routes>
-      </div>
 
       {/* ===========================
           CUSTOM ANIMATIONS
@@ -82,6 +81,20 @@ function App() {
           }
         `}
       </style>
+
+
+        {/* ===========================
+          ROUTES
+      ============================ */}
+      <div className="relative z-10">
+        <Routes>
+          <Route path="/" element={authUser ? <ChatPage /> : <Navigate to={"/login"}/>} />
+          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to={"/"}/>} />
+          <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to={"/"}/>} />
+        </Routes>
+      </div>
+
+      <Toaster/>
 
     </div>
   );
