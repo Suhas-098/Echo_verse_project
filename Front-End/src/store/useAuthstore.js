@@ -7,8 +7,10 @@ export const useAuthStore = create((set)=>({
 authUser:null,
 isCheckngAuth:true,
 isSigningUp:false,
+isLoggingIn:false,
 
 
+//Check if user is authenticated
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
@@ -22,6 +24,8 @@ isSigningUp:false,
     }
   },
 
+
+//signIn method
 signup:async(data)=>{
     set({isSigningUp:true})
     try{
@@ -32,6 +36,21 @@ signup:async(data)=>{
        toast.error(error.response.data.message)
     }finally{
         set({isSigningUp:false});
+    }
+},
+
+
+//login method
+login:async(data)=>{
+    set({isLoggingIn:true})
+    try{
+        const res = await axiosInstance.post("/auth/login",data);
+        set({authUser:res.data});
+        toast.success("Logged in successfully")
+    }catch(error){
+       toast.error(error.response.data.message)
+    }finally{
+        set({isLoggingIn:false});
     }
 },
 }));
