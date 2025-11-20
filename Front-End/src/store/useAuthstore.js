@@ -15,7 +15,7 @@ isLoggingIn:false,
     try {
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
-      get().connectSocket();
+      // get().connectSocket();
     } catch (error) {
       console.log("Error in authCheck:", error);
       set({ authUser: null });
@@ -52,5 +52,18 @@ login:async(data)=>{
     }finally{
         set({isLoggingIn:false});
     }
+},
+
+
+//UpdateProfile
+updateProfile: async(data)=>{
+  try {
+    const res=await axiosInstance.put("/auth/update-profile",data);
+    set({authUser:res.data});
+    toast.success("profile updated successfully");
+  } catch (error) {
+    console.log("Error in update profile:",error);
+    toast.error(error.response.data.message);
+  }
 },
 }));
