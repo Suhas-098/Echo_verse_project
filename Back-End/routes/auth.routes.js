@@ -99,15 +99,17 @@ res.status(200).json({ message: "Logged out successfully" });
 });
 
 //-------UPDATE PROFILE---------
-router.post("/update-profile",protectRoute, async(req,res) =>{
+router.put("/update-profile",protectRoute, async(req,res) =>{
 
 try {
   const {Profilepic}=req.body;
   if(!Profilepic) return res.status(400).json({message:"Profile pic is required"});
-
+  
+  const userId = req.user._id; 
+  
   const uploadResponse =await cloudinary.uploader.upload(Profilepic);
 
-  const updateUser =await User.findByIdAndUpdate({Profilepic:uploadResponse.secure_url},{new:true});
+  const updateUser =await User.findByIdAndUpdate(userId, {Profilepic:uploadResponse.secure_url},{new:true});
 
   res.status(200).json(updateUser);
 } catch (error) {
