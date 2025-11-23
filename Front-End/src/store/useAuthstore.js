@@ -55,6 +55,23 @@ login:async(data)=>{
 },
 
 
+
+//logout method
+logout:async()=>{
+    
+    try{
+        await axiosInstance.post("/auth/logout");
+        set({authUser:null});
+        toast.success("Logged out successfully")
+        // get().disconnectSocket();
+    }catch(error){
+       toast.error("error logging out");
+       console.log("logout error:",error);
+    }
+},
+
+
+
 //UpdateProfile
 updateProfile: async(data)=>{
   try {
