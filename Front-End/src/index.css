@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,28 +10,41 @@
   syntax: "<angle>";
 }
 
+body {
+  @apply font-sans bg-background text-slate-200 antialiased selection:bg-accent/30 selection:text-accent;
+}
+
 .input {
-  @apply w-full bg-slate-800/50 border border-slate-700 rounded-lg py-2 pl-10 pr-4 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent;
+  @apply w-full bg-surface/50 border border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 backdrop-blur-sm;
 }
 
 .auth-input-icon {
-  @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-5;
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 size-5 transition-colors group-focus-within:text-primary;
 }
 
 .auth-input-label {
-  @apply block text-sm font-medium text-slate-300 mb-2;
+  @apply block text-sm font-medium text-slate-400 mb-2 ml-1;
 }
 
 .auth-badge {
-  @apply inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-cyan-500/20 text-cyan-300;
+  @apply inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20;
 }
 
 .auth-btn {
-  @apply w-full bg-cyan-500 text-white rounded-lg py-2.5 font-medium
-  hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500;
+  @apply w-full bg-gradient-to-r from-primary to-secondary text-white rounded-xl py-3 font-semibold shadow-lg shadow-primary/20
+  hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300;
 }
 
 .auth-link {
-  @apply px-4 py-2 inline-block bg-cyan-500/10 rounded-lg text-cyan-400
-  hover:text-cyan-500 text-sm transition-colors;
+  @apply px-4 py-2 inline-block bg-surface/50 rounded-lg text-slate-400
+  hover:text-primary hover:bg-primary/10 text-sm transition-all duration-300;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  @apply bg-surface/30 backdrop-blur-md border border-white/10;
+}
+
+.glass-card {
+  @apply bg-surface/40 backdrop-blur-xl border border-white/5 shadow-xl;
 }
