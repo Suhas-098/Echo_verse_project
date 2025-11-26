@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useChatStore } from '../store/useChatStore';
 import UsersLoadingSkeleton from "./UsersLoadingSkeleton";
 import { Contact } from 'lucide-react';
+import { useAuthStore } from '../store/useAuthstore';
 
 function ContactList() {
 
   const { getAllContacts, allContacts, isUsersLoading, setSelectedUser } = useChatStore();
-  // const { onlineUsers } = useAuthStore();
+  const { onlineUsers } = useAuthStore();
 
   useEffect(() => {
     getAllContacts();
@@ -25,8 +26,7 @@ function ContactList() {
           onClick={() => setSelectedUser(Contact)}
         >
           <div className="flex items-center gap-3">
-            <div className={`avatar online`}>
-              {/* ${onlineUsers.includes(chat._id) ? "online" : "offline"} willl be adding this when we use socket IO */}
+            <div className={`avatar ${onlineUsers.includes(Contact._id) ? "online" : "offline"} willl be adding this when we use socket IO`}>
               <div className="size-12 rounded-full">
                 <img src={Contact.Profilepic || "/avatar.png"} alt={Contact.FullName} />
               </div>
