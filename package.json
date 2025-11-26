@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "build": "npm install --prefix Back-End && npm install --prefix Front-End && npm run build --prefix Front-End",
-  "start": "npm run start --prefix Back-End"
+    "build": "npm install --prefix Back-End && npm install --prefix Front-End && npm run build --prefix Front-End",
+    "start": "npm run start --prefix Back-End",
+    "dev": "concurrently \"npm run dev --prefix Front-End\" \"npm run dev --prefix Back-End\""
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Suhas-098/Echo_verse_project/issues"
   },
-  "homepage": "https://github.com/Suhas-098/Echo_verse_project#readme"
+  "homepage": "https://github.com/Suhas-098/Echo_verse_project#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
