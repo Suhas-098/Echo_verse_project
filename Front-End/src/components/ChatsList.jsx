@@ -30,7 +30,7 @@ function ChatsList() {
             <div className={`avatar online relative`}>
               {/* ${onlineUsers.includes(chat._id) ? "online" : "offline"} willl be adding this when we use socket IO */}
               <div className="size-12 rounded-full ring-2 ring-transparent group-hover:ring-primary/50 transition-all duration-300">
-                <img src={chat.ProfilePic || "/avatar.png"} alt={chat.FullName} className="object-cover" />
+                <img src={chat.Profilepic || "/avatar.png"} alt={chat.FullName} className="object-cover" />
               </div>
             </div>
             <div className="flex-1 min-w-0">

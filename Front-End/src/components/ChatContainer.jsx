@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthStore } from "../store/useAuthstore";
 import { useChatStore } from "../store/useChatStore";
 import ChatsHeader from "./ChatsHeader";
@@ -9,11 +9,18 @@ import MessageLoadingSkeleton from "./MessageLoadingSkeleton";
 function ChatContainer() {
 
   const { selectedUser, getMessagesByUserId, messages, isMessagesLoading } = useChatStore()
-  const { authUser } = useAuthStore()
+  const { authUser } = useAuthStore();
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     getMessagesByUserId(selectedUser._id);
   }, [selectedUser, getMessagesByUserId]);
+
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
 
   return (
@@ -29,8 +36,8 @@ function ChatContainer() {
               >
                 <div
                   className={`chat-bubble relative shadow-lg ${msg.senderId === authUser._id
-                      ? "bg-gradient-to-br from-primary to-secondary text-white rounded-br-none"
-                      : "bg-surface/80 backdrop-blur-sm text-slate-200 border border-white/5 rounded-bl-none"
+                    ? "bg-gradient-to-br from-primary to-secondary text-white rounded-br-none"
+                    : "bg-surface/80 backdrop-blur-sm text-slate-200 border border-white/5 rounded-bl-none"
                     }`}
                 >
                   {msg.image && (
@@ -48,7 +55,7 @@ function ChatContainer() {
               </div>
             ))}
             {/* 👇 scroll target */}
-            {/* <div ref={messageEndRef} /> */}
+            <div ref={messageEndRef} />
           </div>
         ) : isMessagesLoading ? (
           <MessageLoadingSkeleton />
