@@ -7,7 +7,7 @@ import { useAuthStore } from "../store/useAuthstore";
 function ChatsList() {
 
   const { getMyChatPartners, chats, isUsersLoading, setSelectedUser } = useChatStore();
-  // const { onlineUsers } = useAuthStore();
+  const { onlineUsers } = useAuthStore();
 
   useEffect(() => {
     getMyChatPartners();
@@ -27,8 +27,7 @@ function ChatsList() {
           onClick={() => setSelectedUser(chat)}
         >
           <div className="flex items-center gap-4">
-            <div className={`avatar online relative`}>
-              {/* ${onlineUsers.includes(chat._id) ? "online" : "offline"} willl be adding this when we use socket IO */}
+            <div className={`avatar ${onlineUsers.includes(chat._id) ? "online" : "offline"}`}>
               <div className="size-12 rounded-full ring-2 ring-transparent group-hover:ring-primary/50 transition-all duration-300">
                 <img src={chat.Profilepic || "/avatar.png"} alt={chat.FullName} className="object-cover" />
               </div>
