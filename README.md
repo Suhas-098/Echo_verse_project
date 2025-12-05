@@ -17,8 +17,23 @@ Users can send messages at a future date & time
 
 👤 User Profiles with status indicators (online/offline)
 
-📱 Responsive UI built with React + TailwindCSS
+📱 Responsive UI built with React + TailwindCSS + DaisyUI
 
 💾 MongoDB Data Persistence
 
 🛡️ Error Handling & API Validation
+
+🧩 Tech Stack
+-Frontend-
+React.js
+Context API
+Axios
+Tailwind 
+DaisyUI
+-Backend-
+Node.js
+Express.js
+MongoDB + Mongoose
+Redis + BullMQ
+Socket.io
+Cloudinary
