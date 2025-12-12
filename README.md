@@ -46,3 +46,15 @@ Additional features will be added in future iterations.
 
 Images of the project
 <img width="1897" height="896" alt="Screenshot 2025-12-12 184557" src="https://github.com/user-attachments/assets/1e4f6f1c-f03b-4a1a-8464-7cf2a5318259" />
+<img width="1849" height="888" alt="Screenshot 2025-12-12 184611" src="https://github.com/user-attachments/assets/08abac24-c357-4401-9745-a815af75416d" />
+<img width="1867" height="884" alt="Screenshot 2025-12-12 184724" src="https://github.com/user-attachments/assets/fe13410f-fe27-4949-828c-a8e364e1f5c7" />
+<img width="1867" height="910" alt="Screenshot 2025-12-12 184753" src="https://github.com/user-attachments/assets/3f6b7eae-4d88-4799-b902-caf8df2151a9" />
+<img width="1672" height="893" alt="Screenshot 2025-12-12 184816" src="https://github.com/user-attachments/assets/43db27e7-6ffd-471f-b2c9-64c3b67ab977" />
+<img width="1817" height="902" alt="Screenshot 2025-12-12 185036" src="https://github.com/user-attachments/assets/8b491720-260c-403d-adb2-3442b17cd883" />
+<img width="520" height="340" alt="Screenshot 2025-12-12 185244" src="https://github.com/user-attachments/assets/e872861a-fe8e-44c8-abff-e2863a964376" />
+
+
+
+
+
+
