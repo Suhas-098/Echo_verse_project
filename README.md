@@ -40,9 +40,9 @@ Cloudinary
 
 Status:
 The core real-time system and scheduling engine are complete.
-
 Some minor UI refinements and small logic tweaks remain.
-
 The project is not deployed yet—I am currently focusing on building more projects and improving core development skills.
-
 Additional features will be added in future iterations.
+
+Images of the project
+<img width="1897" height="896" alt="Screenshot 2025-12-12 184557" src="https://github.com/user-attachments/assets/1e4f6f1c-f03b-4a1a-8464-7cf2a5318259" />
