@@ -37,3 +37,12 @@ MongoDB + Mongoose
 Redis + BullMQ
 Socket.io
 Cloudinary
+
+Status:
+The core real-time system and scheduling engine are complete.
+
+Some minor UI refinements and small logic tweaks remain.
+
+The project is not deployed yet—I am currently focusing on building more projects and improving core development skills.
+
+Additional features will be added in future iterations.
