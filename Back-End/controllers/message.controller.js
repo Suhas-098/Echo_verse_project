@@ -1,9 +1,9 @@
-import cloudinary from "../lib/cloudinary.js";
+import User from "../models/User.js";
 import Messsage from "../models/messages.js";
-import User from "../models/user.js";
+import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
-
-
+import ScheduledMessage from "../models/scheduledMessage.js";
+import { scheduledMessageQueue } from "../lib/queue.js";
 
 export const getAllContacts = async (req, res) => {
     try {
@@ -14,11 +14,8 @@ export const getAllContacts = async (req, res) => {
     } catch (error) {
         console.log("error in getAllcontacts:", error);
         res.status(500).json({ message: "server error" });
-
     }
 };
-
-
 
 export const getMessagesByUserId = async (req, res) => {
     try {
@@ -37,8 +34,6 @@ export const getMessagesByUserId = async (req, res) => {
         res.status(500).json({ message: "Error in getMessagesByUserId" });
     }
 };
-
-
 
 export const sendMessage = async (req, res) => {
     try {
@@ -88,8 +83,6 @@ export const sendMessage = async (req, res) => {
     }
 };
 
-
-
 export const getChatPartners = async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
@@ -111,5 +104,60 @@ export const getChatPartners = async (req, res) => {
     } catch (error) {
         console.error("Error in getChatPartners: ", error.message);
         res.status(500).json({ error: "Internal Server error in getChatPartners" });
+    }
+};
+
+export const scheduleMessage = async (req, res) => {
+    try {
+        const { text, image, scheduledAt } = req.body;
+        const { id: receiverId } = req.params;
+        const senderId = req.user._id;
+
+        if (!text && !image) {
+            return res.status(400).json({ message: "Text or image is required." });
+        }
+        if (!scheduledAt) {
+            return res.status(400).json({ message: "Scheduled date is required." });
+        }
+
+        const receiverExists = await User.exists({ _id: receiverId });
+        if (!receiverExists) {
+            return res.status(404).json({ message: "Receiver not found." });
+        }
+
+        let imageUrl;
+        if (image) {
+            const uploadResponse = await cloudinary.uploader.upload(image);
+            imageUrl = uploadResponse.secure_url;
+        }
+
+        const newScheduledMessage = new ScheduledMessage({
+            senderId,
+            receiverId,
+            text,
+            image: imageUrl,
+            scheduledAt,
+        });
+
+        await newScheduledMessage.save();
+
+        // 🔍 LOG 1 — Confirm message saved
+        console.log("📨 Scheduling message:", newScheduledMessage._id);
+
+        const delay = new Date(scheduledAt).getTime() - Date.now();
+
+        // 🔍 LOG 2 — Check delay
+        console.log("⏳ Delay (ms):", delay);
+
+        await scheduledMessageQueue.add(
+            "send-message",
+            { messageId: newScheduledMessage._id },
+            { delay: delay > 0 ? delay : 0 }
+        );
+
+        res.status(201).json(newScheduledMessage);
+    } catch (error) {
+        console.log("Error in scheduleMessage controller:", error.message);
+        res.status(500).json({ message: "Error in scheduleMessage" });
     }
 };

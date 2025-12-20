@@ -10,6 +10,7 @@ import { io, app, server } from "./lib/socket.js";
 
 import authroutes from "./routes/auth.routes.js";
 import messagesRoutes from "./routes/messages.routes.js";
+import "./lib/worker.js"; // Start the BullMQ worker for scheduled messages
 
 
 dotenv.config();

@@ -2,27 +2,42 @@ import { useRef, useState } from "react";
 import useKeyboardSound from "../hooks/useKeyboardSound";
 import { useChatStore } from "../store/useChatStore";
 import toast from "react-hot-toast";
-import { ImageIcon, SendIcon, XIcon } from "lucide-react";
-function MessagesInput() {
+import { ImageIcon, SendIcon, XIcon, Calendar } from "lucide-react";
 
+function MessagesInput() {
   const { playRandomKeyStorkeSound } = useKeyboardSound();
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+  const [scheduledDate, setScheduledDate] = useState(""); // State for scheduled date
+  const [showDatePicker, setShowDatePicker] = useState(false); // State to toggle date picker
 
   const fileInputRef = useRef(null);
-  const { sendMessage, isSoundEnabled } = useChatStore();
+  const { sendMessage, scheduleMessage, isSoundEnabled } = useChatStore();
 
-  const handleSendMessage = (e) => {
-    e.preventDefault()
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
     if (!text.trim() && !imagePreview) return;
-    if (isSoundEnabled) playRandomKeyStorkeSound()
+    if (isSoundEnabled) playRandomKeyStorkeSound();
 
-    sendMessage({
-      text: text.trim(),
-      image: imagePreview
-    });
+    if (scheduledDate) {
+      // If a date is selected, schedule the message
+      await scheduleMessage({
+        text: text.trim(),
+        image: imagePreview,
+        scheduledAt: scheduledDate
+      });
+      setScheduledDate("");
+      setShowDatePicker(false);
+    } else {
+      // Otherwise send immediately
+      await sendMessage({
+        text: text.trim(),
+        image: imagePreview
+      });
+    }
+
     setText("");
-    setImagePreview("");
+    setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -38,9 +53,10 @@ function MessagesInput() {
   };
 
   const removeImage = () => {
-    setImagePreview(null)
+    setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
-  }
+  };
+
   return (
     <div className="p-4 border-t border-white/5 bg-surface/30 backdrop-blur-md">
       {imagePreview && (
@@ -71,17 +87,44 @@ function MessagesInput() {
               setText(e.target.value);
               isSoundEnabled && playRandomKeyStorkeSound();
             }}
-            className="w-full bg-surface/50 border border-white/5 rounded-xl py-3 pl-4 pr-10 text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all duration-300"
+            className="w-full bg-surface/50 border border-white/5 rounded-xl py-3 pl-4 pr-24 text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all duration-300"
             placeholder="Type your message..."
           />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-colors ${imagePreview ? "text-primary bg-primary/10" : "text-slate-400 hover:text-primary hover:bg-white/5"
-              }`}
-          >
-            <ImageIcon className="w-5 h-5" />
-          </button>
+
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            {/* Date Picker Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              className={`p-1.5 rounded-lg transition-colors ${scheduledDate ? "text-primary bg-primary/10" : "text-slate-400 hover:text-primary hover:bg-white/5"
+                }`}
+              title="Schedule message"
+            >
+              <Calendar className="w-5 h-5" />
+            </button>
+
+            {/* Image Upload Button */}
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className={`p-1.5 rounded-lg transition-colors ${imagePreview ? "text-primary bg-primary/10" : "text-slate-400 hover:text-primary hover:bg-white/5"
+                }`}
+            >
+              <ImageIcon className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Date Picker Popup */}
+          {showDatePicker && (
+            <div className="absolute bottom-full right-0 mb-2 p-3 bg-surface border border-white/10 rounded-xl shadow-xl z-50 backdrop-blur-lg">
+              <input
+                type="datetime-local"
+                value={scheduledDate}
+                onChange={(e) => setScheduledDate(e.target.value)}
+                className="bg-surface/50 border border-white/5 rounded-lg p-2 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              />
+            </div>
+          )}
         </div>
 
         <input
