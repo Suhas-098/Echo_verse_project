@@ -92,22 +92,27 @@ export const useChatStore = create((set, get) => ({
         }
     },
 
+    scheduleMessage: async (messageData) => {
+        const { selectedUser } = get();
+        try {
+            await axiosInstance.post(`/messages/schedule/${selectedUser._id}`, messageData);
+            toast.success("Message scheduled successfully");
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Failed to schedule message");
+        }
+    },
 
-    subscibeToMessages: () => {
-        const { selectedUser, isSoundEnabled } = get();
-        if (!selectedUser) return;
 
+    subscribeToMessages: () => {
         const socket = useAuthStore.getState().socket;
+
+        socket.off("newMessage");
+
         socket.on("newMessage", (newMessage) => {
-            const currentMessages = get().messages;
-            set({ messages: [...currentMessages, newMessage] });
-
-            if (isSoundEnabled) {
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch((e) => console.log("Audio play failed", e));
-            }
-        })
-
+            set((state) => ({
+                messages: [...state.messages, newMessage],
+            }));
+        });
     },
 
 
